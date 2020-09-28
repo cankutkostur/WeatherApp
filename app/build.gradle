@@ -79,4 +79,10 @@ dependencies {
 
     // WorkManager
     implementation "android.arch.work:work-runtime-ktx:$version_work"
+
+    // Material design components
+    implementation "com.google.android.material:material:$version_material"
+
+    // Client for retrieving location
+    implementation "com.google.android.gms:play-services-location:$version_play_services"
 }
