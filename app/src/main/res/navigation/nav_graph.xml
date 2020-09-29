@@ -7,5 +7,20 @@
     <fragment
         android:id="@+id/listFragment"
         android:name="com.example.weatherapp.ui.list.ListFragment"
-        android:label="ListFragment" />
+        android:label="ListFragment" >
+        <action
+            android:id="@+id/action_listFragment_to_detailFragment"
+            app:destination="@id/detailFragment" />
+        <action
+            android:id="@+id/action_listFragment_to_addFragment"
+            app:destination="@id/addFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailFragment"
+        android:name="com.example.weatherapp.ui.detail.DetailFragment"
+        android:label="DetailFragment" />
+    <fragment
+        android:id="@+id/addFragment"
+        android:name="com.example.weatherapp.ui.add.AddFragment"
+        android:label="AddFragment" />
 </navigation>
