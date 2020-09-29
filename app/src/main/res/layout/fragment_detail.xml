@@ -14,5 +14,236 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/city_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            style="?textAppearanceHeadline3"
+            tools:text="Eskisehir"/>
+
+        <TextView
+            android:id="@+id/city_weather"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_small"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/city_name"
+            tools:text="Clear sky"/>
+
+        <TextView
+            android:id="@+id/city_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/city_weather"
+            style="?textAppearanceHeadline4"
+            tools:text="26°C" />
+
+        <ImageView
+            android:id="@+id/city_weather_image"
+            android:layout_width="@dimen/image_big"
+            android:layout_height="@dimen/image_big"
+            android:layout_margin="@dimen/spacing_normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/city_temperature"
+            tools:srcCompat="@drawable/ic_launcher_foreground" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/city_weather_hourly"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginVertical="@dimen/spacing_normal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/city_weather_image"
+            tools:listitem="@layout/hour_item"/>
+
+        <LinearLayout
+            android:id="@+id/forecasts_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="@dimen/spacing_small"
+            app:layout_constraintTop_toBottomOf="@id/city_weather_hourly"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <TextView
+            android:id="@+id/sunrise_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sunrise"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            android:layout_marginVertical="@dimen/spacing_small"
+            style="?textAppearanceHeadline6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/forecasts_list" />
+
+        <TextView
+            android:id="@+id/sunset_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sunset"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            android:layout_marginVertical="@dimen/spacing_small"
+            style="?textAppearanceHeadline6"
+            app:layout_constraintBaseline_toBaselineOf="@+id/sunrise_label"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/sunrise_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            android:layout_marginVertical="@dimen/spacing_small"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sunrise_label"
+            tools:text="06:57"/>
+
+        <TextView
+            android:id="@+id/sunset_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            android:layout_marginVertical="@dimen/spacing_small"
+            app:layout_constraintBaseline_toBaselineOf="@+id/sunrise_value"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="18:51"/>
+
+        <TextView
+            android:id="@+id/pressure_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pressure"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            android:layout_marginVertical="@dimen/spacing_small"
+            style="?textAppearanceHeadline6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sunset_value" />
+
+        <TextView
+            android:id="@+id/humidity_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/humidity"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            android:layout_marginVertical="@dimen/spacing_small"
+            style="?textAppearanceHeadline6"
+            app:layout_constraintBaseline_toBaselineOf="@+id/pressure_label"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/pressure_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            android:layout_marginVertical="@dimen/spacing_small"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pressure_label"
+            tools:text="1018hPa"/>
+
+        <TextView
+            android:id="@+id/humidity_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            android:layout_marginVertical="@dimen/spacing_small"
+            app:layout_constraintBaseline_toBaselineOf="@+id/pressure_value"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="73%"/>
+
+        <TextView
+            android:id="@+id/visibility_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/visibility"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            android:layout_marginVertical="@dimen/spacing_small"
+            style="?textAppearanceHeadline6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pressure_value" />
+
+        <TextView
+            android:id="@+id/clouds_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/clouds"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            android:layout_marginVertical="@dimen/spacing_small"
+            style="?textAppearanceHeadline6"
+            app:layout_constraintBaseline_toBaselineOf="@+id/visibility_label"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/visibility_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            android:layout_marginVertical="@dimen/spacing_small"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/visibility_label"
+            tools:text="10000m"/>
+
+        <TextView
+            android:id="@+id/clouds_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            android:layout_marginVertical="@dimen/spacing_small"
+            app:layout_constraintBaseline_toBaselineOf="@+id/visibility_value"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="0%"/>
+
+        <TextView
+            android:id="@+id/wind_speed_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wind_speed"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            android:layout_marginVertical="@dimen/spacing_small"
+            style="?textAppearanceHeadline6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/visibility_value" />
+
+        <TextView
+            android:id="@+id/wind_degrees_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wind_degrees"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            android:layout_marginVertical="@dimen/spacing_small"
+            style="?textAppearanceHeadline6"
+            app:layout_constraintBaseline_toBaselineOf="@+id/wind_speed_label"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/wind_speed_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            android:layout_marginVertical="@dimen/spacing_small"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/wind_speed_label"
+            tools:text="3.1 m/s"/>
+
+        <TextView
+            android:id="@+id/wind_degrees_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
+            android:layout_marginVertical="@dimen/spacing_small"
+            app:layout_constraintBaseline_toBaselineOf="@+id/wind_speed_value"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="210°"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
