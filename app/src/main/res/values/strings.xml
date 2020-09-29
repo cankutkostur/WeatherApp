@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">WeatherApp</string>
+    <string name="display_temperature">TODO</string>
+    <string name="city_name_to_add">City name to add</string>
+    <string name="sunrise">Sunrise</string>
+    <string name="sunset">Sunset</string>
+    <string name="pressure">Pressure</string>
+    <string name="humidity">Humidity</string>
+    <string name="visibility">Visibility</string>
+    <string name="clouds">Clouds</string>
+    <string name="wind_speed">Wind Speed</string>
+    <string name="wind_degrees">Wind Degrees</string>
 </resources>
