@@ -31,7 +31,7 @@ class AddViewModel(app: Application) : AndroidViewModel(app) {
         // read cities json file with io thread
         viewModelScope.launch {
             allCities = withContext(Dispatchers.IO){
-                getAssetCities(getApplication()).asDomainModel()
+                getAssetCities(getApplication()).asDomainModel().sortedBy { it.name }
             }
         }
     }
@@ -44,7 +44,7 @@ class AddViewModel(app: Application) : AndroidViewModel(app) {
             _cities.value = dao.getAllMatching(queryName)
         }*/
         _cities.value = allCities?.filter { city ->
-            city.name.contains(queryName, ignoreCase = true)
+            city.name.startsWith(queryName, ignoreCase = true)
         }?.take(15)
     }
 }
