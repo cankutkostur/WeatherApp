@@ -7,12 +7,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.weatherapp.Util.asDomainModel
 import com.example.weatherapp.Util.getAssetCities
+import com.example.weatherapp.database.getDatabase
 import com.example.weatherapp.domain.DomainCity
+import com.example.weatherapp.domain.asDatabaseModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AddViewModel(app: Application) : AndroidViewModel(app) {
+    private val weatherDao = getDatabase(app).weatherDao
+
     private var _selectedCity = MutableLiveData<DomainCity>()
     val selectedCity
         get() = _selectedCity
@@ -24,14 +28,6 @@ class AddViewModel(app: Application) : AndroidViewModel(app) {
         get() = _cities
 
     init {
-        /*viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                if (dao.getCityCount() == 0) {
-                    dao.insert(getAssetCities(getApplication()).asDatabaseModel())
-                }
-            }
-        }*/
-
         // read cities json file with io thread
         viewModelScope.launch {
             allCities = withContext(Dispatchers.IO){
@@ -47,9 +43,6 @@ class AddViewModel(app: Application) : AndroidViewModel(app) {
     // @param queryName = query string for filtering including cities
     // takes 15 of matching cities
     fun showCities(queryName: String) {
-        /*viewModelScope.launch {
-            _cities.value = dao.getAllMatching(queryName)
-        }*/
         _cities.value = allCities?.filter { city ->
             city.name.startsWith(queryName, ignoreCase = true)
         }?.take(15)
@@ -60,6 +53,9 @@ class AddViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     fun onCitySelected(){
+        viewModelScope.launch {
+            _selectedCity.value?.asDatabaseModel()?.let { weatherDao.insert(it) }
+        }
         _selectedCity.value = null
     }
 }
