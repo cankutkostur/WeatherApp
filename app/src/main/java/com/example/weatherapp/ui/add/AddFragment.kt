@@ -8,11 +8,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.weatherapp.R
 import com.example.weatherapp.databinding.FragmentAddBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 
 class AddFragment : Fragment() {
@@ -52,9 +56,13 @@ class AddFragment : Fragment() {
         })
 
         viewModel.selectedCity.observe(viewLifecycleOwner, Observer {
-            //TODO persist in database city
-            imm.hideSoftInputFromWindow(binding.cityName.windowToken,0)
-            findNavController().navigate(AddFragmentDirections.actionAddFragmentToListFragment())
+            it?.let {
+                // hide the keyboard
+                imm.hideSoftInputFromWindow(binding.cityName.windowToken, 0)
+                Toast.makeText(context, getString(R.string.city_added), Toast.LENGTH_LONG).show()
+                findNavController().navigate(AddFragmentDirections.actionAddFragmentToListFragment())
+                viewModel.onCitySelected()
+            }
         })
 
         // change listener for search editText view
