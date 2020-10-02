@@ -1,7 +1,7 @@
 package com.example.weatherapp.Util
 
 import android.content.Context
-import com.example.weatherapp.domain.Coords
+import com.example.weatherapp.database.models.Coords
 import com.example.weatherapp.domain.DomainCity
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonClass
