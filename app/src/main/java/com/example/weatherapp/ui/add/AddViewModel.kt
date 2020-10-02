@@ -13,6 +13,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AddViewModel(app: Application) : AndroidViewModel(app) {
+    private var _selectedCity = MutableLiveData<DomainCity>()
+    val selectedCity
+        get() = _selectedCity
+
     private var allCities: List<DomainCity>? = null
 
     private var _cities = MutableLiveData<List<DomainCity>>()
@@ -31,7 +35,10 @@ class AddViewModel(app: Application) : AndroidViewModel(app) {
         // read cities json file with io thread
         viewModelScope.launch {
             allCities = withContext(Dispatchers.IO){
-                getAssetCities(getApplication()).asDomainModel().sortedBy { it.name }
+                val cities = getAssetCities(getApplication())
+                withContext(Dispatchers.Default){
+                    cities.asDomainModel().sortedBy { it.name }
+                }
             }
         }
     }
@@ -46,5 +53,13 @@ class AddViewModel(app: Application) : AndroidViewModel(app) {
         _cities.value = allCities?.filter { city ->
             city.name.startsWith(queryName, ignoreCase = true)
         }?.take(15)
+    }
+
+    fun onCitySelect(city: DomainCity){
+        _selectedCity.value = city
+    }
+
+    fun onCitySelected(){
+        _selectedCity.value = null
     }
 }

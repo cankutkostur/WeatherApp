@@ -26,5 +26,9 @@
         android:id="@+id/addFragment"
         android:name="com.example.weatherapp.ui.add.AddFragment"
         android:label="AddFragment"
-        tools:layout="@layout/fragment_add"/>
+        tools:layout="@layout/fragment_add">
+        <action
+            android:id="@+id/action_addFragment_to_listFragment"
+            app:destination="@id/listFragment" />
+    </fragment>
 </navigation>
