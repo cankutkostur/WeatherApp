@@ -15,15 +15,24 @@
         android:layout_height="match_parent"
         android:padding="@dimen/spacing_normal">
 
-        <AutoCompleteTextView
+        <EditText
             android:id="@+id/city_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/city_name_to_add"
-            android:autofillHints="@string/city_name_to_add"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/city_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/city_name"
+            tools:listitem="@layout/add_item"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
