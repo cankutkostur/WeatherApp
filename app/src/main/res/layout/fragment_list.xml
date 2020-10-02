@@ -17,13 +17,12 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_height="match_parent"
             android:layout_width="match_parent">
-            <!-- commented until repo ready
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/city_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:paddingTop="@dimen/spacing_small"
                 tools:listitem="@layout/list_item"/>
-            -->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
