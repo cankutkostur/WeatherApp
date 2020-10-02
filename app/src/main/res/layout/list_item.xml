@@ -7,13 +7,15 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/spacing_big"
-        android:layout_marginVertical="@dimen/spacing_small">
+        android:layout_marginHorizontal="@dimen/spacing_normal"
+        android:layout_marginVertical="@dimen/spacing_small"
+        android:background="?colorPrimaryVariant">
 
         <TextView
             android:id="@+id/city_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
             app:layout_constraintBottom_toBottomOf="@+id/city_weather_image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/city_weather_image"
@@ -24,6 +26,7 @@
             android:id="@+id/city_weather_image"
             android:layout_width="@dimen/image_normal"
             android:layout_height="@dimen/image_normal"
+            android:layout_marginHorizontal="@dimen/spacing_normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -35,6 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_small"
+            android:textColor="?colorOnPrimary"
             app:layout_constraintBaseline_toBaselineOf="@+id/city_name"
             app:layout_constraintEnd_toStartOf="@+id/city_weather_image"
             tools:text="26°C" />
