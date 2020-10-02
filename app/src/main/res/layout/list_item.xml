@@ -4,18 +4,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="city"
+            type="com.example.weatherapp.domain.DomainCity" />
+
+        <variable
+            name="clickListener"
+            type="com.example.weatherapp.ui.list.ListItemListener" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_normal"
         android:layout_marginVertical="@dimen/spacing_small"
-        android:background="?colorPrimaryVariant">
+        android:background="?colorPrimaryVariant"
+        android:onClick="@{() -> clickListener.onClick(city)}"
+        android:longClickable="true">
 
         <TextView
             android:id="@+id/city_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_normal"
+            app:setCityName="@{city}"
             app:layout_constraintBottom_toBottomOf="@+id/city_weather_image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/city_weather_image"
@@ -42,5 +55,6 @@
             app:layout_constraintBaseline_toBaselineOf="@+id/city_name"
             app:layout_constraintEnd_toStartOf="@+id/city_weather_image"
             tools:text="26°C" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
