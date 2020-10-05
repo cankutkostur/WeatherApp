@@ -1,10 +1,8 @@
 package com.example.weatherapp.database
 
 import androidx.lifecycle.LiveData
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
-import androidx.room.Query
+import androidx.lifecycle.MutableLiveData
+import androidx.room.*
 import com.example.weatherapp.database.models.DatabaseCity
 
 @Dao
@@ -14,4 +12,7 @@ interface WeatherDao{
 
     @Query("SELECT * FROM databasecity")
     fun getAllCities(): LiveData<List<DatabaseCity>>
+
+    @Delete
+    suspend fun delete(city: DatabaseCity)
 }
