@@ -5,26 +5,26 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.weatherapp.Util.asDomainModel
-import com.example.weatherapp.Util.getAssetCities
+import com.example.weatherapp.util.JsonCity
+import com.example.weatherapp.util.getAssetCities
 import com.example.weatherapp.database.getDatabase
-import com.example.weatherapp.domain.DomainCity
-import com.example.weatherapp.domain.asDatabaseModel
+import com.example.weatherapp.repository.WeatherRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class AddViewModel(app: Application) : AndroidViewModel(app) {
-    private val weatherDao = getDatabase(app).weatherDao
+    private val database = getDatabase(app)
+    private val weatherRepository = WeatherRepository(database)
 
-    private var _selectedCity = MutableLiveData<DomainCity>()
+    private var _selectedCity = MutableLiveData<JsonCity>()
     val selectedCity
         get() = _selectedCity
 
-    private var allCities: List<DomainCity>? = null
+    private var allCities: List<JsonCity>? = null
 
-    private var _cities = MutableLiveData<List<DomainCity>>()
-    val cities: LiveData<List<DomainCity>>
+    private var _cities = MutableLiveData<List<JsonCity>>()
+    val cities: LiveData<List<JsonCity>>
         get() = _cities
 
     init {
@@ -33,7 +33,7 @@ class AddViewModel(app: Application) : AndroidViewModel(app) {
             allCities = withContext(Dispatchers.IO){
                 val cities = getAssetCities(getApplication())
                 withContext(Dispatchers.Default){
-                    cities.asDomainModel().sortedBy { it.name }
+                    cities?.sortedBy { it.name }
                 }
             }
         }
@@ -48,13 +48,13 @@ class AddViewModel(app: Application) : AndroidViewModel(app) {
         }?.take(15)
     }
 
-    fun onCitySelect(city: DomainCity){
+    fun onCitySelect(city: JsonCity){
         _selectedCity.value = city
     }
 
     fun onCitySelected(){
         viewModelScope.launch {
-            _selectedCity.value?.asDatabaseModel()?.let { weatherDao.insert(it) }
+            _selectedCity.value?.let { weatherRepository.addCity(it) }
         }
         _selectedCity.value = null
     }
