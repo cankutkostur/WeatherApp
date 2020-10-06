@@ -1,7 +1,10 @@
 package com.example.weatherapp.network.dto
 
-import com.squareup.moshi.Json
 
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+
+@JsonClass(generateAdapter = true)
 data class ForecastDTO(
     val lat: Double,
     val lon: Double,
@@ -10,5 +13,5 @@ data class ForecastDTO(
     val timezoneOffset: Int,
     val current: CurrentDTO,
     val hourly: List<HourlyDTO>,
-    val daily: DailyDTO
+    val daily: List<DailyDTO>
 )

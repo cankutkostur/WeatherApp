@@ -1,7 +1,10 @@
 package com.example.weatherapp.network.dto
 
+import com.example.weatherapp.database.models.Current
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class CurrentDTO(
     val dt: Long,
     val sunrise: Long,
@@ -22,3 +25,22 @@ data class CurrentDTO(
     val windDeg: Int,
     val weather: List<WeatherDTO>
 )
+
+fun CurrentDTO.asDatabaseModel(): Current {
+    return Current(
+        dt = dt,
+        sunrise = sunrise,
+        sunset = sunset,
+        temp = temp,
+        feelsLike = feelsLike,
+        pressure = pressure,
+        humidity = humidity,
+        dewPoint = dewPoint,
+        uvi = uvi,
+        clouds = clouds,
+        visibility = visibility,
+        windSpeed = windSpeed,
+        windDeg = windDeg,
+        weather = weather.first().asDatabaseModel()
+    )
+}

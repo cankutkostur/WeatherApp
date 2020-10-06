@@ -1,7 +1,10 @@
 package com.example.weatherapp.network.dto
 
+import com.example.weatherapp.database.models.DatabaseDaily
 import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
 
+@JsonClass(generateAdapter = true)
 data class DailyDTO(
     val dt: Long,
     val sunrise: Long,
@@ -15,10 +18,20 @@ data class DailyDTO(
     val dewPoint: Double,
     val uvi: Double,
     val clouds: Int,
-    val visibility: Int,
     @Json(name = "wind_speed")
     val windSpeed: Double,
     @Json(name = "wind_deg")
     val windDeg: Int,
     val weather: List<WeatherDTO>
 )
+
+fun List<DailyDTO>.asDatabaseModel(cityId: Long): Array<DatabaseDaily> {
+    return map {
+        DatabaseDaily(
+            dt = it.dt,
+            cityId = cityId,
+            temp = it.temp.asDatabaseModel(),
+            weather = it.weather.first().asDatabaseModel()
+        )
+    }.toTypedArray()
+}
