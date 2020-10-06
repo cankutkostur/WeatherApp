@@ -1,19 +1,18 @@
-package com.example.weatherapp.Util
+package com.example.weatherapp.util
 
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import com.example.weatherapp.domain.DomainCity
 
 @BindingAdapter("setCityName")
-fun TextView.setCityName(item: DomainCity?) {
+fun TextView.setCityName(item: String) {
     item?.let {
-        text = item.name
+        text = item
     }
 }
 
 @BindingAdapter("setCountryName")
-fun TextView.setCountryName(item: DomainCity?) {
+fun TextView.setCountryName(item: String) {
     item?.let {
-        text = "(" + item.country + ")"
+        text = "(" + item + ")"
     }
 }
