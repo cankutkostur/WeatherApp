@@ -1,31 +1,43 @@
 package com.example.weatherapp.ui.list
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.widget.Toast
+import androidx.lifecycle.*
 import com.example.weatherapp.database.getDatabase
 import com.example.weatherapp.domain.DomainCity
+import com.example.weatherapp.repository.WeatherRepository
+import kotlinx.coroutines.launch
 
 
 class ListViewModel(app: Application) : AndroidViewModel(app) {
-    val dao = getDatabase(app).weatherDao
 
-    val favCities = dao.getAllCities()
+    private val database = getDatabase(app)
+    private val weatherRepository = WeatherRepository(database)
+
+    var _favCities = weatherRepository.cities
+    val favCities: LiveData<List<DomainCity>>
+        get() = _favCities
+
+    //TODO selecting and deleting must be revised
+    private var _selectedCities = MutableLiveData<MutableList<DomainCity>>()
+    val selectedCities: LiveData<MutableList<DomainCity>>
+        get() = _selectedCities
+
+    val isSelecting = Transformations.map(selectedCities){
+        it.isNotEmpty()
+    }
 
     private var _navigateToAdd = MutableLiveData<Boolean>()
     val navigateToAdd: LiveData<Boolean>
         get() = _navigateToAdd
 
-    //TODO change type int to city class
-    private var _selectedCities = MutableLiveData<MutableList<Int>>()
-    val selectedCities: LiveData<MutableList<Int>>
-        get() = _selectedCities
+
 
     init {
+        viewModelScope.launch {
+            weatherRepository.refreshCities()
+        }
         _navigateToAdd.value = false
-        _selectedCities.value = mutableListOf<Int>()
     }
 
     fun addCity() {
@@ -36,12 +48,16 @@ class ListViewModel(app: Application) : AndroidViewModel(app) {
         _navigateToAdd.value = false
     }
 
-    fun onSelect(city: Int) {
-        _selectedCities.value!!.add(city)
+    fun onSelect(selected: DomainCity) {
+        viewModelScope.launch {
+            weatherRepository.deleteCity(selected)
+        }
     }
 
     fun onCityClicked(city: DomainCity) {
         //TODO implement
+        Toast.makeText(getApplication(), city.current.weather.description, Toast.LENGTH_SHORT).show()
+
     }
 
     fun onCityNavigated() {
