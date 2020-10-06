@@ -15,11 +15,11 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/list_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/spacing_normal"
         android:layout_marginVertical="@dimen/spacing_small"
-        android:background="?colorPrimaryVariant"
         android:onClick="@{() -> clickListener.onClick(city)}"
         android:longClickable="true">
 
@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_normal"
-            app:setCityName="@{city}"
+            app:setCityName="@{city.name}"
             app:layout_constraintBottom_toBottomOf="@+id/city_weather_image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/city_weather_image"
@@ -51,7 +51,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_small"
-            android:textColor="?colorOnPrimary"
             app:layout_constraintBaseline_toBaselineOf="@+id/city_name"
             app:layout_constraintEnd_toStartOf="@+id/city_weather_image"
             tools:text="26°C" />

@@ -7,7 +7,7 @@
     <data>
         <variable
             name="city"
-            type="com.example.weatherapp.domain.DomainCity" />
+            type="com.example.weatherapp.util.JsonCity" />
 
         <variable
             name="clickListener"
@@ -23,7 +23,7 @@
             android:id="@+id/city_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:setCityName="@{city}"
+            app:setCityName="@{city.name}"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -35,7 +35,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_small"
-            app:setCountryName="@{city}"
+            app:setCountryName="@{city.country}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/city_name"
             app:layout_constraintTop_toTopOf="parent"
