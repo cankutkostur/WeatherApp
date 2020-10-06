@@ -1,8 +1,7 @@
-package com.example.weatherapp.Util
+package com.example.weatherapp.util
 
 import android.content.Context
 import com.example.weatherapp.database.models.Coords
-import com.example.weatherapp.domain.DomainCity
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonClass
 import com.squareup.moshi.Moshi
@@ -13,7 +12,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 private const val FILE = "city.list.min.json"
 
 
-suspend fun getAssetCities(context: Context): JsonCityContainer {
+suspend fun getAssetCities(context: Context): List<JsonCity>? {
     val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
         .build()
@@ -26,11 +25,9 @@ suspend fun getAssetCities(context: Context): JsonCityContainer {
 
     val cities = adapter.fromJson(myjson)
 
-    return JsonCityContainer(cities!!)
+    return cities
 }
 
-@JsonClass(generateAdapter = true)
-data class JsonCityContainer(val cities: List<JsonCity>)
 
 @JsonClass(generateAdapter = true)
 data class JsonCity(
@@ -39,15 +36,3 @@ data class JsonCity(
     val country: String,
     val coord: Coords
 )
-
-
-fun JsonCityContainer.asDomainModel(): List<DomainCity> {
-    return cities.map {
-        DomainCity(
-            id = it.id,
-            name = it.name,
-            country = it.country,
-            coord = it.coord
-        )
-    }
-}
