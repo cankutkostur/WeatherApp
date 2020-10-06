@@ -6,10 +6,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.weatherapp.util.JsonCity
 import com.example.weatherapp.databinding.AddItemBinding
-import com.example.weatherapp.domain.DomainCity
 
-class AddItemAdapter(val clickListener: AddItemListener) : ListAdapter<DomainCity, AddItemAdapter.ViewHolder>(CityDiffCallback()) {
+class AddItemAdapter(val clickListener: AddItemListener) : ListAdapter<JsonCity, AddItemAdapter.ViewHolder>(CityDiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(getItem(position)!!, clickListener)
@@ -21,7 +21,7 @@ class AddItemAdapter(val clickListener: AddItemListener) : ListAdapter<DomainCit
 
     class ViewHolder private constructor(val binding: AddItemBinding) : RecyclerView.ViewHolder(binding.root){
 
-        fun bind(item: DomainCity, clickListener: AddItemListener) {
+        fun bind(item: JsonCity, clickListener: AddItemListener) {
             binding.city = item
             binding.clickListener = clickListener
             binding.executePendingBindings()
@@ -38,18 +38,18 @@ class AddItemAdapter(val clickListener: AddItemListener) : ListAdapter<DomainCit
 }
 
 
-class CityDiffCallback : DiffUtil.ItemCallback<DomainCity>() {
+class CityDiffCallback : DiffUtil.ItemCallback<JsonCity>() {
 
-    override fun areItemsTheSame(oldItem: DomainCity, newItem: DomainCity): Boolean {
+    override fun areItemsTheSame(oldItem: JsonCity, newItem: JsonCity): Boolean {
         return oldItem.id == newItem.id
     }
 
     @SuppressLint("DiffUtilEquals")
-    override fun areContentsTheSame(oldItem: DomainCity, newItem: DomainCity): Boolean {
+    override fun areContentsTheSame(oldItem: JsonCity, newItem: JsonCity): Boolean {
         return oldItem == newItem
     }
 }
 
-class AddItemListener(val clickListener: (city: DomainCity) -> Unit) {
-    fun onClick(city: DomainCity) = clickListener(city)
+class AddItemListener(val clickListener: (city: JsonCity) -> Unit) {
+    fun onClick(city: JsonCity) = clickListener(city)
 }
