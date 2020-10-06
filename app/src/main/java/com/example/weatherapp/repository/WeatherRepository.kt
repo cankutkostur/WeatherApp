@@ -23,7 +23,7 @@ class WeatherRepository (private val database: WeatherDatabase){
     private val dailyDao = database.dailyDao
 
     val cities: LiveData<List<DomainCity>> =
-        Transformations.map(cityDao.getAllCities()) {
+        Transformations.map(cityDao.getCities()) {
             it.asDomainModel()
         }
 

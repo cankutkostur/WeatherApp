@@ -45,7 +45,7 @@ data class Current(
     val weather: DatabaseWeather
 )
 
-fun Current.asDomanModel(): com.example.weatherapp.domain.Current{
+fun Current.asDomainModel(): com.example.weatherapp.domain.Current{
     return com.example.weatherapp.domain.Current(
         dt = dt,
         sunrise = sunrise,
@@ -66,14 +66,18 @@ fun Current.asDomanModel(): com.example.weatherapp.domain.Current{
 
 fun List<DatabaseCity>.asDomainModel(): List<DomainCity>{
     return map {
-        DomainCity(
-            id = it.id,
-            name = it.name,
-            country = it.country,
-            coord = it.coord,
-            timezone = it.timezone,
-            timezoneOffset = it.timezoneOffset,
-            current = it.current.asDomanModel()
-        )
+        it.asDomainModel()
     }
+}
+
+fun DatabaseCity.asDomainModel(): DomainCity{
+    return DomainCity(
+        id = id,
+        name = name,
+        country = country,
+        coord = coord,
+        timezone = timezone,
+        timezoneOffset = timezoneOffset,
+        current = current.asDomainModel()
+    )
 }

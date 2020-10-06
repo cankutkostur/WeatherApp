@@ -4,6 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import com.example.weatherapp.domain.DomainHourly
 
 @Entity(foreignKeys = [ForeignKey(entity = DatabaseCity::class,
     parentColumns = ["id"],
@@ -19,3 +20,18 @@ data class DatabaseHourly(
     @Embedded(prefix = "weather_")
     val weather: DatabaseWeather
 )
+
+fun DatabaseHourly.asDomainModel(): DomainHourly{
+    return DomainHourly(
+        id = id,
+        dt = dt,
+        temp = temp,
+        weather = weather.asDomainModel()
+    )
+}
+
+fun List<DatabaseHourly>.asDomainModel(): List<DomainHourly> {
+    return map{
+        it.asDomainModel()
+    }
+}
