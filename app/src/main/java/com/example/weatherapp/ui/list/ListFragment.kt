@@ -4,12 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import com.example.weatherapp.R
 import com.example.weatherapp.database.models.asDomainModel
 import com.example.weatherapp.databinding.FragmentListBinding
+import kotlinx.android.synthetic.main.activity_main.view.*
 
 class ListFragment : Fragment() {
 
@@ -32,19 +36,31 @@ class ListFragment : Fragment() {
         // bind viewModel
         binding.viewModel = viewModel
 
-        val adapter = ListItemAdapter(ListItemListener { city ->
+        val adapter = ListItemAdapter(ListItemListener( { city ->
             viewModel.onCityClicked(city)
-        })
+        }, { city ->
+            viewModel.onSelect(city)
+        }))
 
         binding.cityList.adapter = adapter
 
-        viewModel.favCities.observe(viewLifecycleOwner, Observer {
+        viewModel.favCities.observe(viewLifecycleOwner, {
             it?.let {
-                adapter.submitList(it.asDomainModel())
+                adapter.submitList(it)
             }
         })
 
-        viewModel.navigateToAdd.observe(viewLifecycleOwner, Observer {
+        viewModel.isSelecting.observe(viewLifecycleOwner, {
+            if (it) {
+                Toast.makeText(context, "selecting", Toast.LENGTH_SHORT).show()
+                activity!!.findViewById<ImageView>(R.id.delete_icon).visibility = View.VISIBLE
+            }
+            else{
+                activity!!.findViewById<ImageView>(R.id.delete_icon).visibility = View.INVISIBLE
+            }
+        })
+
+        viewModel.navigateToAdd.observe(viewLifecycleOwner, {
             if (it){
                 findNavController().navigate(ListFragmentDirections.actionListFragmentToAddFragment())
                 viewModel.addCityCompleted()
