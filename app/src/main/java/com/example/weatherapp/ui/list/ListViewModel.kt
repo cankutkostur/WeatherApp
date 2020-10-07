@@ -5,6 +5,7 @@ import android.widget.Toast
 import androidx.lifecycle.*
 import com.example.weatherapp.database.getDatabase
 import com.example.weatherapp.domain.DomainCity
+import com.example.weatherapp.domain.DomainCityWithHourlyAndDaily
 import com.example.weatherapp.repository.WeatherRepository
 import kotlinx.coroutines.launch
 
@@ -15,8 +16,16 @@ class ListViewModel(app: Application) : AndroidViewModel(app) {
     private val weatherRepository = WeatherRepository(database)
 
     var _favCities = weatherRepository.cities
-    val favCities: LiveData<List<DomainCity>>
+    val favCities: LiveData<List<DomainCityWithHourlyAndDaily>>
         get() = _favCities
+
+    private var _navigateToAdd = MutableLiveData<Boolean>()
+    val navigateToAdd: LiveData<Boolean>
+        get() = _navigateToAdd
+
+    private var _navigateToCity = MutableLiveData<DomainCityWithHourlyAndDaily>()
+    val navigateToCity: LiveData<DomainCityWithHourlyAndDaily>
+        get() = _navigateToCity
 
     //TODO selecting and deleting must be revised
     private var _selectedCities = MutableLiveData<MutableList<DomainCity>>()
@@ -26,12 +35,6 @@ class ListViewModel(app: Application) : AndroidViewModel(app) {
     val isSelecting = Transformations.map(selectedCities){
         it.isNotEmpty()
     }
-
-    private var _navigateToAdd = MutableLiveData<Boolean>()
-    val navigateToAdd: LiveData<Boolean>
-        get() = _navigateToAdd
-
-
 
     init {
         viewModelScope.launch {
@@ -48,19 +51,22 @@ class ListViewModel(app: Application) : AndroidViewModel(app) {
         _navigateToAdd.value = false
     }
 
-    fun onSelect(selected: DomainCity) {
+    fun onSelect(item: DomainCityWithHourlyAndDaily): Boolean {
         viewModelScope.launch {
-            weatherRepository.deleteCity(selected)
+            weatherRepository.deleteCity(item.city)
         }
+        return true
     }
 
-    fun onCityClicked(city: DomainCity) {
+    fun onCityClicked(item: DomainCityWithHourlyAndDaily) {
         //TODO implement
-        Toast.makeText(getApplication(), city.current.weather.description, Toast.LENGTH_SHORT).show()
+    }
 
+    fun onCityNavigate(item: DomainCityWithHourlyAndDaily){
+        _navigateToCity.value = item
     }
 
     fun onCityNavigated() {
-        //TODO implement
+        _navigateToCity.value = null
     }
 }
