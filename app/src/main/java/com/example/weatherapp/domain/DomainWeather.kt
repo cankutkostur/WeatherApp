@@ -6,10 +6,10 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class DomainWeather(
-    val id: Int,
-    val main: String,
-    val description: String,
-    val icon: String
+    val id: Int?,
+    val main: String?,
+    val description: String?,
+    val icon: String?
 ) : Parcelable
 
 fun DomainWeather.asDatabaseModel(): DatabaseWeather{

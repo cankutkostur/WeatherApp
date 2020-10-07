@@ -12,27 +12,27 @@ data class DomainCity(
     val name: String,
     val country: String,
     val coord: Coords,
-    val timezone: String,
-    val timezoneOffset: Int,
-    val current: Current
+    val timezone: String?,
+    val timezoneOffset: Int?,
+    val current: Current?
 ) : Parcelable
 
 @Parcelize
 data class Current(
-    val dt: Long,
-    val sunrise: Long,
-    val sunset: Long,
-    val temp: Double,
-    val feelsLike: Double,
-    val pressure: Int,
-    val humidity: Int,
-    val dewPoint: Double,
-    val uvi: Double,
-    val clouds: Int,
-    val visibility: Int,
-    val windSpeed: Double,
-    val windDeg: Int,
-    val weather: DomainWeather
+    val dt: Long?,
+    val sunrise: Long?,
+    val sunset: Long?,
+    val temp: Double?,
+    val feelsLike: Double?,
+    val pressure: Int?,
+    val humidity: Int?,
+    val dewPoint: Double?,
+    val uvi: Double?,
+    val clouds: Int?,
+    val visibility: Int?,
+    val windSpeed: Double?,
+    val windDeg: Int?,
+    val weather: DomainWeather?
 ) : Parcelable
 
 fun Current.asDatabaseModel(): com.example.weatherapp.database.models.Current{
@@ -50,7 +50,7 @@ fun Current.asDatabaseModel(): com.example.weatherapp.database.models.Current{
         visibility = visibility,
         windSpeed = windSpeed,
         windDeg = windDeg,
-        weather = weather.asDatabaseModel()
+        weather = weather?.asDatabaseModel()
     )
 }
 
@@ -62,6 +62,6 @@ fun DomainCity.asDatabaseModel(): DatabaseCity {
         coord = coord,
         timezone = timezone,
         timezoneOffset = timezoneOffset,
-        current = current.asDatabaseModel()
+        current = current?.asDatabaseModel()
     )
 }
