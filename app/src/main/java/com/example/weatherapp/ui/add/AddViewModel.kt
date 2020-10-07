@@ -9,6 +9,7 @@ import com.example.weatherapp.util.JsonCity
 import com.example.weatherapp.util.getAssetCities
 import com.example.weatherapp.database.getDatabase
 import com.example.weatherapp.repository.WeatherRepository
+import com.example.weatherapp.util.asDomainModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -39,7 +40,6 @@ class AddViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-
     // @param queryName = query string for filtering including cities
     // takes 15 of matching cities
     fun showCities(queryName: String) {
@@ -54,7 +54,7 @@ class AddViewModel(app: Application) : AndroidViewModel(app) {
 
     fun onCitySelected(){
         viewModelScope.launch {
-            _selectedCity.value?.let { weatherRepository.addCity(it) }
+            _selectedCity.value?.let { weatherRepository.addCity(it.asDomainModel()) }
         }
         _selectedCity.value = null
     }

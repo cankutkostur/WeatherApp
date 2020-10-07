@@ -2,6 +2,7 @@ package com.example.weatherapp.util
 
 import android.content.Context
 import com.example.weatherapp.database.models.Coords
+import com.example.weatherapp.domain.DomainCity
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.JsonClass
 import com.squareup.moshi.Moshi
@@ -36,3 +37,15 @@ data class JsonCity(
     val country: String,
     val coord: Coords
 )
+
+fun JsonCity.asDomainModel(): DomainCity{
+    return DomainCity(
+        id = id,
+        name = name,
+        country = country,
+        coord = coord,
+        current = null,
+        timezone = null,
+        timezoneOffset = null
+    )
+}
