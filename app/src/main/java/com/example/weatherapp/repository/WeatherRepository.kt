@@ -34,7 +34,7 @@ class WeatherRepository (private val database: WeatherDatabase){
         }
     }
 
-    suspend fun addCity(city: JsonCity){
+    suspend fun addCity(city: DomainCity){
         withContext(Dispatchers.IO) {
             val forecast = getForecast(city.coord.lat, city.coord.lon)
 
@@ -44,19 +44,19 @@ class WeatherRepository (private val database: WeatherDatabase){
 
     suspend fun refreshCities() {
         withContext(Dispatchers.IO) {
-            cities.value?.map {
-                val forecast = getForecast(it.city.coord.lat, it.city.coord.lon)
+            val list = cityDao.getCities().asDomainModel()
+            list?.forEach{
+                val forecast = getForecast(it.coord.lat, it.coord.lon)
 
-                if(forecast != null) {
+                if (forecast != null) {
                     insertForecast(
-                        it.city.id,
-                        it.city.name,
-                        it.city.country,
-                        it.city.coord,
+                        it.id,
+                        it.name,
+                        it.country,
+                        it.coord,
                         forecast
                     )
                 }
-
             }
         }
     }
