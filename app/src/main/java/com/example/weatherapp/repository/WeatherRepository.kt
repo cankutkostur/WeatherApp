@@ -8,6 +8,7 @@ import com.example.weatherapp.database.models.Coords
 import com.example.weatherapp.database.models.DatabaseCity
 import com.example.weatherapp.database.models.asDomainModel
 import com.example.weatherapp.domain.DomainCity
+import com.example.weatherapp.domain.DomainCityWithHourlyAndDaily
 import com.example.weatherapp.domain.asDatabaseModel
 import com.example.weatherapp.network.Network
 import com.example.weatherapp.network.WeatherApiExclude
@@ -22,8 +23,8 @@ class WeatherRepository (private val database: WeatherDatabase){
     private val hourlyDao = database.hourlyDao
     private val dailyDao = database.dailyDao
 
-    val cities: LiveData<List<DomainCity>> =
-        Transformations.map(cityDao.getCities()) {
+    val cities: LiveData<List<DomainCityWithHourlyAndDaily>> =
+        Transformations.map(cityDao.getCitiesWithHourlyAndDaily()) {
             it.asDomainModel()
         }
 
@@ -36,6 +37,7 @@ class WeatherRepository (private val database: WeatherDatabase){
     suspend fun addCity(city: JsonCity){
         withContext(Dispatchers.IO) {
             val forecast = getForecast(city.coord.lat, city.coord.lon)
+
             insertForecast(city.id, city.name, city.country, city.coord, forecast)
         }
     }
@@ -43,35 +45,53 @@ class WeatherRepository (private val database: WeatherDatabase){
     suspend fun refreshCities() {
         withContext(Dispatchers.IO) {
             cities.value?.map {
-                val forecast = getForecast(it.coord.lat, it.coord.lon)
+                val forecast = getForecast(it.city.coord.lat, it.city.coord.lon)
 
-                insertForecast(it.id, it.name, it.country, it.coord, forecast)
+                if(forecast != null) {
+                    insertForecast(
+                        it.city.id,
+                        it.city.name,
+                        it.city.country,
+                        it.city.coord,
+                        forecast
+                    )
+                }
 
             }
         }
     }
 
-    private suspend fun getForecast(lat: Double, lon: Double): ForecastDTO{
-        val f =  Network.weatherApi.getForecast(lat,
-            lon,
-            "9c66536f2830e831b613d51fc345be88",
-            listOf(WeatherApiExclude.ALERTS.value,
-                WeatherApiExclude.MINUTELY.value)).await()
-        return f
+    private suspend fun getForecast(lat: Double, lon: Double): ForecastDTO?{
+        return try {
+            Network.weatherApi.getForecast(
+                lat,
+                lon,
+                "9c66536f2830e831b613d51fc345be88",
+                listOf(
+                    WeatherApiExclude.ALERTS.value,
+                    WeatherApiExclude.MINUTELY.value
+                )
+            ).await()
+        }catch (e: Exception){
+            null
+        }
     }
 
-    private suspend fun insertForecast(id: Long, name: String, country: String, coord: Coords, forecast: ForecastDTO) {
+    private suspend fun insertForecast(id: Long, name: String, country: String, coord: Coords, forecast: ForecastDTO?) {
         // Update city
         val updatedCity = DatabaseCity(id, name, country, coord,
-            forecast.timezone, forecast.timezoneOffset, forecast.current.asDatabaseModel())
+            forecast?.timezone, forecast?.timezoneOffset, forecast?.current?.asDatabaseModel()
+        )
         cityDao.insert(updatedCity)
 
-        // Update hourly
-        val updatedHourly = forecast.hourly.asDatabaseModel(id)
-        hourlyDao.insertAll(*updatedHourly)
+        forecast?.let {
+            // Update hourly
+            val updatedHourly = it.hourly.asDatabaseModel(id)
+            hourlyDao.insertAll(*updatedHourly)
 
-        // Update daily
-        val updatedDaily = forecast.daily.asDatabaseModel(id)
-        dailyDao.insertAll(*updatedDaily)
+            // Update daily
+            val updatedDaily = it.daily.asDatabaseModel(id)
+            dailyDao.insertAll(*updatedDaily)
+        }
     }
 }
