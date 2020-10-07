@@ -21,6 +21,6 @@ interface CityDao{
     suspend fun delete(city: DatabaseCity)
 
     @Transaction
-    @Query("SELECT * FROM databasecity")
+    @Query("SELECT * FROM databasecity ORDER BY name")
     fun getCitiesWithHourlyAndDaily(): LiveData<List<CityWithHourlyAndDaily>>
 }
