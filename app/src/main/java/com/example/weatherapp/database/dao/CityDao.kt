@@ -15,7 +15,7 @@ interface CityDao{
     suspend fun insertAll(vararg city: DatabaseCity)
 
     @Query("SELECT * FROM databasecity")
-    fun getCities(): LiveData<List<DatabaseCity>>
+    fun getCities(): List<DatabaseCity>
 
     @Delete
     suspend fun delete(city: DatabaseCity)
