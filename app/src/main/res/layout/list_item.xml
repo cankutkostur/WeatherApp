@@ -40,7 +40,7 @@
             android:layout_width="@dimen/image_normal"
             android:layout_height="@dimen/image_normal"
             android:layout_marginHorizontal="@dimen/spacing_normal"
-            app:weatherImage="@{item}"
+            app:weatherImage="@{item.city.current.weather}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -52,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_small"
-            app:temperature="@{item}"
+            app:temperature="@{item.city.current.temp}"
             app:layout_constraintBaseline_toBaselineOf="@+id/city_name"
             app:layout_constraintEnd_toStartOf="@+id/city_weather_image"
             tools:text="26°C" />
