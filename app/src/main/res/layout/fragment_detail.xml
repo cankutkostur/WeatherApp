@@ -22,6 +22,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/spacing_normal"
+                app:cityName="@{viewModel.selectedCity.city.name}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -33,6 +34,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/spacing_small"
+                app:weatherText="@{viewModel.selectedCity}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/city_name"
@@ -43,6 +45,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/spacing_normal"
+                app:temperature="@{viewModel.selectedCity.city.current.temp}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/city_weather"
@@ -54,6 +57,7 @@
                 android:layout_width="@dimen/image_big"
                 android:layout_height="@dimen/image_big"
                 android:layout_margin="@dimen/spacing_normal"
+                app:weatherImage="@{viewModel.selectedCity.city.current.weather}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/city_temperature"
@@ -64,11 +68,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginVertical="@dimen/spacing_normal"
+                android:layout_marginVertical="@dimen/spacing_big"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/city_weather_image"
+                app:layout_constraintTop_toBottomOf="@+id/updated_time"
                 tools:listitem="@layout/hour_item"/>
 
             <LinearLayout
@@ -76,10 +80,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:layout_margin="@dimen/spacing_small"
+                android:layout_margin="@dimen/spacing_normal"
                 app:layout_constraintTop_toBottomOf="@id/city_weather_hourly"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <TextView
                 android:id="@+id/sunrise_label"
@@ -87,7 +91,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/sunrise"
                 android:layout_marginHorizontal="@dimen/spacing_normal"
-                android:layout_marginVertical="@dimen/spacing_small"
+                android:layout_marginVertical="@dimen/spacing_normal"
                 style="?textAppearanceHeadline6"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/forecasts_list" />
@@ -109,6 +113,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_normal"
                 android:layout_marginVertical="@dimen/spacing_small"
+                app:hour="@{viewModel.selectedCity.city.current.sunrise}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/sunrise_label"
                 tools:text="06:57"/>
@@ -119,6 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_normal"
                 android:layout_marginVertical="@dimen/spacing_small"
+                app:hour="@{viewModel.selectedCity.city.current.sunset}"
                 app:layout_constraintBaseline_toBaselineOf="@+id/sunrise_value"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:text="18:51"/>
@@ -151,6 +157,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_normal"
                 android:layout_marginVertical="@dimen/spacing_small"
+                app:pressure="@{viewModel.selectedCity.city.current.pressure}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/pressure_label"
                 tools:text="1018hPa"/>
@@ -161,6 +168,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_normal"
                 android:layout_marginVertical="@dimen/spacing_small"
+                app:percent="@{viewModel.selectedCity.city.current.humidity}"
                 app:layout_constraintBaseline_toBaselineOf="@+id/pressure_value"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:text="73%"/>
@@ -193,6 +201,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_normal"
                 android:layout_marginVertical="@dimen/spacing_small"
+                app:distance="@{viewModel.selectedCity.city.current.visibility}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/visibility_label"
                 tools:text="10000m"/>
@@ -203,6 +212,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_normal"
                 android:layout_marginVertical="@dimen/spacing_small"
+                app:percent="@{viewModel.selectedCity.city.current.clouds}"
                 app:layout_constraintBaseline_toBaselineOf="@+id/visibility_value"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:text="0%"/>
@@ -235,6 +245,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_normal"
                 android:layout_marginVertical="@dimen/spacing_small"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:speed="@{viewModel.selectedCity.city.current.windSpeed}"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/wind_speed_label"
                 tools:text="3.1 m/s"/>
@@ -245,9 +257,30 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/spacing_normal"
                 android:layout_marginVertical="@dimen/spacing_small"
+                app:degree="@{viewModel.selectedCity.city.current.windDeg}"
                 app:layout_constraintBaseline_toBaselineOf="@+id/wind_speed_value"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:text="210°"/>
+
+            <TextView
+                android:id="@+id/updated_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/updated"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/city_weather_image"
+                tools:text="Updated:"/>
+
+            <TextView
+                android:id="@+id/updated_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/updated_label"
+                app:fullDate="@{viewModel.selectedCity.city.current.dt}"
+                tools:text="13:20"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </layout>
