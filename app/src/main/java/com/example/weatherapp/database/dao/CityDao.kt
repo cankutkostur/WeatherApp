@@ -18,7 +18,7 @@ interface CityDao{
     fun getCities(): List<DatabaseCity>
 
     @Delete
-    suspend fun delete(city: DatabaseCity)
+    suspend fun delete(vararg city: DatabaseCity)
 
     @Transaction
     @Query("SELECT * FROM databasecity ORDER BY name")
