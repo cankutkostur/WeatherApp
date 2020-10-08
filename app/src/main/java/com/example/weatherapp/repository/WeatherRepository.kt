@@ -14,6 +14,7 @@ import com.example.weatherapp.network.Network
 import com.example.weatherapp.network.WeatherApiExclude
 import com.example.weatherapp.network.dto.ForecastDTO
 import com.example.weatherapp.network.dto.asDatabaseModel
+import com.example.weatherapp.util.getAssetCities
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -31,6 +32,12 @@ class WeatherRepository (private val database: WeatherDatabase){
     suspend fun deleteCity(city: DomainCity){
         withContext(Dispatchers.IO) {
             cityDao.delete(city.asDatabaseModel())
+        }
+    }
+
+    suspend fun deleteCities(cities: MutableList<DomainCity>){
+        withContext(Dispatchers.IO){
+            cityDao.delete(*cities.asDatabaseModel())
         }
     }
 
