@@ -3,7 +3,10 @@
     <dimen name="spacing_big">24dp</dimen>
     <dimen name="spacing_normal">16dp</dimen>
     <dimen name="spacing_small">8dp</dimen>
+    <dimen name="spacing_xsmall">4dp</dimen>
+    <dimen name="spacing_xxsmall">2dp</dimen>
     <dimen name="image_normal">75dp</dimen>
     <dimen name="image_small">50dp</dimen>
+    <dimen name="image_xsmall">30dp</dimen>
     <dimen name="image_big">100dp</dimen>
 </resources>
