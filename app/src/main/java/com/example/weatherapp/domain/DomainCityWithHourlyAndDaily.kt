@@ -9,3 +9,10 @@ data class DomainCityWithHourlyAndDaily(
     val hourly: List<DomainHourly>,
     val daily: List<DomainDaily>
 ) : Parcelable
+
+fun List<DomainCityWithHourlyAndDaily>.setSelected(selected: List<DomainCity>): List<DomainCityWithHourlyAndDaily>{
+    return map {
+        it.city.selected = selected.contains(it.city)
+        it
+    }
+}
