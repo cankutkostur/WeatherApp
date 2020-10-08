@@ -1,12 +1,14 @@
 package com.example.weatherapp.ui.list
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.weatherapp.R
 import com.example.weatherapp.databinding.ListItemBinding
 import com.example.weatherapp.domain.DomainCity
 import com.example.weatherapp.domain.DomainCityWithHourlyAndDaily
@@ -17,10 +19,16 @@ class ListItemAdapter(val clickListener: ListItemListener) : ListAdapter<DomainC
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         holder.itemView.setOnClickListener{
-            clickListener.onClick(item)
+                clickListener.onClick(item)
         }
         holder.itemView.setOnLongClickListener{
             clickListener.onLongClick(item)
+        }
+        if (item.city.selected){
+            holder.itemView.setBackgroundResource(R.color.primaryLightColor)
+        }
+        else{
+            holder.itemView.setBackgroundResource(R.color.primaryTextColor)
         }
         holder.bind(item)
     }
@@ -55,7 +63,7 @@ class CityDiffCallback : DiffUtil.ItemCallback<DomainCityWithHourlyAndDaily>() {
     }
 
     override fun areContentsTheSame(oldItem: DomainCityWithHourlyAndDaily, newItem: DomainCityWithHourlyAndDaily): Boolean {
-        return oldItem == newItem
+        return oldItem.city == newItem.city
     }
 }
 
