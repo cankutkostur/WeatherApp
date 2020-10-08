@@ -5,6 +5,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     >
 
+    <data>
+        <variable
+            name="item"
+            type="com.example.weatherapp.domain.DomainDaily" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,6 +21,8 @@
             android:id="@+id/day_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            style="?textAppearanceListItem"
+            app:day="@{item.dt}"
             app:layout_constraintBottom_toBottomOf="@+id/forecast_image"
             app:layout_constraintTop_toTopOf="@+id/forecast_image"
             app:layout_constraintStart_toStartOf="parent"
@@ -22,8 +30,9 @@
 
         <ImageView
             android:id="@+id/forecast_image"
-            android:layout_width="@dimen/image_small"
-            android:layout_height="@dimen/image_small"
+            android:layout_width="@dimen/image_xsmall"
+            android:layout_height="@dimen/image_xsmall"
+            app:weatherImage="@{item.weather}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -35,17 +44,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="@dimen/spacing_small"
+            app:temperature="@{item.temp.night}"
             app:layout_constraintBaseline_toBaselineOf="@+id/day_name"
-            app:layout_constraintEnd_toStartOf="@+id/day_temperature"
+            app:layout_constraintEnd_toEndOf="parent"
             tools:text="13°" />
 
         <TextView
             android:id="@+id/day_temperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:temperature="@{item.temp.day}"
             app:layout_constraintBaseline_toBaselineOf="@+id/day_name"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/seperate"
             tools:text="26°" />
+
+        <TextView
+            android:id="@+id/seperate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/spacing_xxsmall"
+            android:text="/"
+            app:layout_constraintBaseline_toBaselineOf="@+id/day_temperature"
+            app:layout_constraintEnd_toStartOf="@+id/night_temperature" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
