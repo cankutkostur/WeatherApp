@@ -4,6 +4,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <variable
+            name="item"
+            type="com.example.weatherapp.domain.DomainHourly" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -12,6 +18,7 @@
             android:id="@+id/hour"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:hour="@{item.dt}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -21,14 +28,17 @@
             android:id="@+id/weather_image"
             android:layout_width="@dimen/image_small"
             android:layout_height="@dimen/image_small"
+            app:weatherImage="@{item.weather}"
             app:layout_constraintTop_toBottomOf="@id/hour"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             tools:srcCompat="@drawable/ic_launcher_foreground"/>
 
         <TextView
+            android:id="@+id/hour_temperature"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:temperature="@{item.temp}"
             app:layout_constraintTop_toBottomOf="@id/weather_image"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
