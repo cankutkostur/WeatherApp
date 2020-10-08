@@ -22,7 +22,7 @@ class AddViewModel(app: Application) : AndroidViewModel(app) {
     val selectedCity
         get() = _selectedCity
 
-    private var allCities: List<JsonCity>? = null
+    private var _allCities: List<JsonCity>? = null
 
     private var _cities = MutableLiveData<List<JsonCity>>()
     val cities: LiveData<List<JsonCity>>
@@ -31,7 +31,7 @@ class AddViewModel(app: Application) : AndroidViewModel(app) {
     init {
         // read cities json file with io thread
         viewModelScope.launch {
-            allCities = withContext(Dispatchers.IO){
+            _allCities = withContext(Dispatchers.IO){
                 val cities = getAssetCities(getApplication())
                 withContext(Dispatchers.Default){
                     cities?.sortedBy { it.name }
@@ -41,11 +41,11 @@ class AddViewModel(app: Application) : AndroidViewModel(app) {
     }
 
     // @param queryName = query string for filtering including cities
-    // takes 15 of matching cities
+    // takes 10 of matching cities
     fun showCities(queryName: String) {
-        _cities.value = allCities?.filter { city ->
+        _cities.value = _allCities?.filter { city ->
             city.name.startsWith(queryName, ignoreCase = true)
-        }?.take(15)
+        }?.take(10)
     }
 
     fun onCitySelect(city: JsonCity){
