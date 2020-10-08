@@ -4,6 +4,7 @@ import android.os.Parcelable
 import com.example.weatherapp.database.models.Coords
 import com.example.weatherapp.database.models.DatabaseCity
 import com.example.weatherapp.database.models.asDomainModel
+import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -14,8 +15,10 @@ data class DomainCity(
     val coord: Coords,
     val timezone: String?,
     val timezoneOffset: Int?,
-    val current: Current?
-) : Parcelable
+    val current: Current?,
+    var selected: Boolean = false
+) : Parcelable{
+}
 
 @Parcelize
 data class Current(
@@ -64,4 +67,10 @@ fun DomainCity.asDatabaseModel(): DatabaseCity {
         timezoneOffset = timezoneOffset,
         current = current?.asDatabaseModel()
     )
+}
+
+fun MutableList<DomainCity>.asDatabaseModel(): Array<DatabaseCity>{
+    return map{
+        it.asDatabaseModel()
+    }.toTypedArray()
 }
