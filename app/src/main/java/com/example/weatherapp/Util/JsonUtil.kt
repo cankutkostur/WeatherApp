@@ -13,7 +13,7 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 private const val FILE = "city.list.min.json"
 
 
-suspend fun getAssetCities(context: Context): List<JsonCity>? {
+fun getAssetCities(context: Context): List<JsonCity>? {
     val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
         .build()
@@ -24,9 +24,7 @@ suspend fun getAssetCities(context: Context): List<JsonCity>? {
 
     val myjson = context.assets.open(FILE).bufferedReader().use { it.readText() }
 
-    val cities = adapter.fromJson(myjson)
-
-    return cities
+    return adapter.fromJson(myjson)
 }
 
 

@@ -52,7 +52,7 @@ class WeatherRepository (private val database: WeatherDatabase){
     suspend fun refreshCities() {
         withContext(Dispatchers.IO) {
             val list = cityDao.getCities().asDomainModel()
-            list?.forEach{
+            list.forEach{
                 val forecast = getForecast(it.coord.lat, it.coord.lon)
 
                 if (forecast != null) {
