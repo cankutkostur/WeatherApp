@@ -49,12 +49,14 @@ class AddFragment : Fragment() {
         val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(binding.cityName, 0)
 
+        // submit list on change
         viewModel.cities.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.submitList(it)
             }
         })
 
+        // navigate to city
         viewModel.selectedCity.observe(viewLifecycleOwner, Observer {
             it?.let {
                 // hide the keyboard
@@ -71,12 +73,17 @@ class AddFragment : Fragment() {
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModel.showCities(s.toString())
+                //viewModel.showCities(s.toString())
             }
 
             override fun afterTextChanged(s: Editable?) {
+                viewModel.showCities(s.toString())
             }
 
+        })
+
+        viewModel.allCities.observe(viewLifecycleOwner, {
+            viewModel.showCities(binding.cityName.text.toString())
         })
 
 
