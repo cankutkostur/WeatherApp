@@ -43,9 +43,8 @@ class WeatherRepository (private val database: WeatherDatabase){
 
     suspend fun addCity(city: DomainCity){
         withContext(Dispatchers.IO) {
-            val forecast = getForecast(city.coord.lat, city.coord.lon)
-
-            insertForecast(city.id, city.name, city.country, city.coord, forecast)
+            cityDao.insert(city.asDatabaseModel())
+            refreshCities()
         }
     }
 

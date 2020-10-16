@@ -19,7 +19,7 @@ class ListViewModel(app: Application) : AndroidViewModel(app) {
     private val database = getDatabase(app)
     private val weatherRepository = WeatherRepository(database)
 
-    val _favCities = weatherRepository.cities
+    private val _favCities = weatherRepository.cities
     val favCities: LiveData<List<DomainCityWithHourlyAndDaily>>
         get() = _favCities
 
@@ -61,12 +61,11 @@ class ListViewModel(app: Application) : AndroidViewModel(app) {
     fun onSelect(item: DomainCityWithHourlyAndDaily): Boolean {
         if (selected.contains(item.city)){
             selected.remove(item.city)
-            _selectedCities.value = selected
         }
         else {
             selected.add(item.city)
-            _selectedCities.value = selected
         }
+        _selectedCities.value = selected
 
         return true
     }
@@ -97,7 +96,6 @@ class ListViewModel(app: Application) : AndroidViewModel(app) {
             }
             selected.removeAll(selected)
             _selectedCities.value = selected
-            val a = 5
         }
     }
 }

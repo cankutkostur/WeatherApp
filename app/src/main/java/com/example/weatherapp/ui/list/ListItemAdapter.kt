@@ -18,18 +18,6 @@ class ListItemAdapter(val clickListener: ListItemListener) : ListAdapter<DomainC
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
-        holder.itemView.setOnClickListener{
-                clickListener.onClick(item)
-        }
-        holder.itemView.setOnLongClickListener{
-            clickListener.onLongClick(item)
-        }
-        if (item.city.selected){
-            holder.itemView.setBackgroundResource(R.color.primaryLightColor)
-        }
-        else{
-            holder.itemView.setBackgroundResource(R.color.primaryTextColor)
-        }
         holder.bind(item)
     }
 
@@ -39,6 +27,18 @@ class ListItemAdapter(val clickListener: ListItemListener) : ListAdapter<DomainC
 
     class ViewHolder private constructor(val binding: ListItemBinding, val clickListener: ListItemListener) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: DomainCityWithHourlyAndDaily) {
+            itemView.setOnClickListener{
+                clickListener.onClick(item)
+            }
+            itemView.setOnLongClickListener{
+                clickListener.onLongClick(item)
+            }
+            if (item.city.selected){
+                itemView.setBackgroundResource(R.color.primaryLightColor)
+            }
+            else{
+                itemView.setBackgroundResource(R.color.primaryTextColor)
+            }
             binding.item = item
             binding.clickListener = clickListener
             binding.executePendingBindings()
@@ -63,7 +63,7 @@ class CityDiffCallback : DiffUtil.ItemCallback<DomainCityWithHourlyAndDaily>() {
     }
 
     override fun areContentsTheSame(oldItem: DomainCityWithHourlyAndDaily, newItem: DomainCityWithHourlyAndDaily): Boolean {
-        return oldItem.city == newItem.city
+        return oldItem == newItem
     }
 }
 

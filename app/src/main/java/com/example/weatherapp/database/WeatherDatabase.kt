@@ -11,7 +11,7 @@ import com.example.weatherapp.database.models.DatabaseCity
 import com.example.weatherapp.database.models.DatabaseDaily
 import com.example.weatherapp.database.models.DatabaseHourly
 
-@Database(entities = [DatabaseCity::class, DatabaseDaily::class, DatabaseHourly::class], version = 6, exportSchema = false)
+@Database(entities = [DatabaseCity::class, DatabaseDaily::class, DatabaseHourly::class], version = 8, exportSchema = false)
 abstract class WeatherDatabase : RoomDatabase() {
     abstract val cityDao: CityDao
     abstract val dailyDao: DailyDao
